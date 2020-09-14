@@ -1,4 +1,4 @@
-package com.epam.prejap.oop.ooad.v2;
+package com.epam.prejap.oop.ooad.v3;
 
 import java.util.Scanner;
 
@@ -12,8 +12,7 @@ class Caesar {
         System.out.println("Ave Caesar! Morituri te salutant!");
         String input, output;
         do {
-            System.out.println("Would you like to encrypt or decrypt a message?");
-            input = in.nextLine();
+            input = readOperationType(in);
             if (input.equals("encrypt")) {
                 encryptMessage(in);
                 break;
@@ -27,6 +26,13 @@ class Caesar {
         System.out.println("Vale!");
     }
 
+    public static String readOperationType(Scanner in) {
+        String input;
+        System.out.println("Would you like to encrypt or decrypt a message?");
+        input = in.nextLine();
+        return input;
+    }
+
     public static void decryptMessage(Scanner in) {
         String input;
         String output;
@@ -36,22 +42,31 @@ class Caesar {
         for (int i = 0; i < input.length(); i++) {
             char letter = input.charAt(i);
             if ('A' <= letter && letter <= 'Z') {
-                output = decryptOneLetter(output, letter - 3 >= 'A', letter - 3, letter - 3 + 26);
+                output = decryptLetter(output, letter - 3 >= 'A', letter - 3, letter - 3 + 26);
             } else {
                 output = output + letter;
             }
         }
-        System.out.println("Decrypted message: ");
-        System.out.println(output);
+        printDecryptedMessage(output);
         return;
     }
 
-    public static String decryptOneLetter(String output, boolean b, int i2, int i3) {
-        if (b) {
-            output = output + (char) (i2);
+    public static void printDecryptedMessage(String output) {
+        System.out.println("Decrypted message: ");
+        System.out.println(output);
+    }
+
+    public static String decryptLetter(String output, boolean inScope, int encodeType, int shift) {
+        if (inScope) {
+            output = output + (char) (encodeType);
         } else {
-            output = output + (char) (i3);
+            output = shiftLeft(output, shift);
         }
+        return output;
+    }
+
+    public static String shiftLeft(String output, int shift) {
+        output = output + (char) (shift);
         return output;
     }
 
@@ -64,22 +79,31 @@ class Caesar {
         for (int i = 0; i < input.length(); i++) {
             char letter = input.charAt(i);
             if ('A' <= letter && letter <= 'Z') {
-                output = encryptOneLetter(output, letter + 3 <= 'Z', letter + 3, letter + 3 - 26);
+                output = encryptLetter(output, letter + 3 <= 'Z', letter + 3, letter + 3 - 26);
             } else {
                 output = output + letter;
             }
         }
-        System.out.println("Encrypted message: ");
-        System.out.println(output);
+        printEncryptedMessage(output);
         return;
     }
 
-    public static String encryptOneLetter(String output, boolean b, int i2, int i3) {
-        if (b) {
-            output = output + (char) (i2);
+    public static void printEncryptedMessage(String output) {
+        System.out.println("Encrypted message: ");
+        System.out.println(output);
+    }
+
+    public static String encryptLetter(String output, boolean inScope, int encodeType, int shift) {
+        if (inScope) {
+            output = output + (char) (encodeType);
         } else {
-            output = output + (char) (i3);
+            output = shiftRight(output, shift);
         }
+        return output;
+    }
+
+    public static String shiftRight(String output, int shift) {
+        output = output + (char) (shift);
         return output;
     }
 }
