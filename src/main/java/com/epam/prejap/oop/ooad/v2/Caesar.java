@@ -1,4 +1,4 @@
-package com.epam.prejap.oop.ooad;
+package com.epam.prejap.oop.ooad.v2;
 
 import java.util.Scanner;
 
